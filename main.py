@@ -1,3 +1,5 @@
+from keep_alive import keep_alive
+
 import discord
 from discord.ext import commands, tasks
 import os
@@ -1559,19 +1561,6 @@ async def on_member_join(member):
 
         await channel.send(embed=embed)
 
-
-# Función para mantener el bot vivo optimizada para deployment
-async def keep_alive():
-    """Función para mantener el bot activo en deployment 24/7"""
-    while True:
-        await asyncio.sleep(600)  # Esperar 10 minutos para mayor eficiencia
-        print(
-            f"🔄 Bot activo 24/7 - {datetime.now().strftime('%d/%m/%Y %H:%M:%S')}"
-        )
-        print(f"📊 Conectado a {len(bot.guilds)} servidor(es)")
-        print(f"🏓 Latencia: {round(bot.latency * 1000)}ms")
-
-
 # Función principal optimizada para 24/7
 async def main():
     """Función principal del bot optimizada para deployment 24/7"""
@@ -1592,10 +1581,10 @@ async def main():
             )
 
             # Iniciar el bot
-            async with bot:
-                # Crear tarea para mantener vivo el bot
-                asyncio.create_task(keep_alive())
-                await bot.start(token)
+async with bot:
+    keep_alive()  # 🔹 Levanta el servidor Flask para Render
+    await bot.start(token)
+
 
         except discord.LoginFailure:
             print("❌ Error: Token de Discord inválido")
