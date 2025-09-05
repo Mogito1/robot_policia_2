@@ -1,9 +1,8 @@
-from keep_alive import keep_alive
-
 import discord
 from discord.ext import commands, tasks
 import os
 from dotenv import load_dotenv
+from keep_alive import keep_alive  # 🔹 Mantiene vivo el bot en Render
 import asyncio
 import json
 import aiofiles
@@ -1561,6 +1560,9 @@ async def on_member_join(member):
 
         await channel.send(embed=embed)
 
+
+# Función para mantener el bot vivo optimizada para deployment
+
 # Función principal optimizada para 24/7
 async def main():
     """Función principal del bot optimizada para deployment 24/7"""
@@ -1581,10 +1583,10 @@ async def main():
             )
 
             # Iniciar el bot
-async with bot:
-    keep_alive()  # 🔹 Levanta el servidor Flask para Render
-    await bot.start(token)
-
+            async with bot:
+                # Crear tarea para mantener vivo el bot
+                keep_alive()  # 🔹 Levanta el servidor Flask para Render
+                await bot.start(token)
 
         except discord.LoginFailure:
             print("❌ Error: Token de Discord inválido")
@@ -1613,3 +1615,4 @@ if __name__ == "__main__":
     print("⚡ Configurado para funcionamiento 24/7")
     print("🔧 Powered by Replit Deployment")
     asyncio.run(main())
+
