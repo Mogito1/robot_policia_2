@@ -1613,7 +1613,3 @@ if __name__ == "__main__":
     print("⚡ Configurado para funcionamiento 24/7")
     print("🔧 Powered by Replit Deployment")
     asyncio.run(main())
-
-from flask import Flask
-import threading
-
